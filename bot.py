@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 import telebot
 import requests
@@ -5,10 +6,7 @@ import time
 import random
 import re
 
-# ===== НОВЫЙ ТОКЕН БОТА =====
 BOT_TOKEN = "8946443848:AAHgr9zzCnw86hsYIoLfdvQAfTWWMUZZvcM"
-
-# ===== ТВОЙ ЯНДЕКС-ТОКЕН (не меняй) =====
 YANDEX_TOKEN = "2.59051822.39375.1813498855.1781962855835.1.0.11986268.j-PhEOQCL85Qn3K.bs5n8s5clUoe2al8IGbNvJwXfDf_z2F3vXwjZczBh3IHTJYpCcZG_wD2jyhi0FdkzDCgujwDSKIWhOtC6RXkNhbxL5CzzCOzPq"
 
 BASE_URL = "https://api.yandex.ru/scooter/v1"
@@ -49,7 +47,7 @@ def unlock_scooter(scooter_id):
 
 @bot.message_handler(commands=['start', 'help'])
 def send_help(message):
-    bot.reply_to(message, "Отправь боту ID самоката (цифры) или ссылку с QR-кода.")
+    bot.reply_to(message, "Отправь ID самоката (цифры) или ссылку с QR-кода.")
 
 @bot.message_handler(func=lambda m: True)
 def handle_text(message):
@@ -80,4 +78,5 @@ def index():
     return 'Бот работает!'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
